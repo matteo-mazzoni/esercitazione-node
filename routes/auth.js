@@ -12,30 +12,30 @@ router.get('/dashboard', (req, res) => {
     res.render('dashboard', { user: req.session.username });
 });
 
-//Handle signup
+// Handle signup
 router.post('/signup', async (req, res) => {
-    const { username, password } = req.body;
+  const { username, password } = req.body;
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    db.query(
+  const hashedPassword = await bcrypt.hash(password, 10);
+  db.query(
     'INSERT INTO users (username, password) VALUES (?, ?)',
     [username, hashedPassword],
     (err) => {
-        if (err) {
+      if (err) {
         console.log(err);
         return res.send('Error creating user');
-        }
-    res.redirect('/login');
+      }
+      res.redirect('/login');
     }
-);
+  );
 });
 
-//Handle login
+// Handle login
 router.post('/login', (req, res) => {
-const { username, password } = req.body;
+  const { username, password } = req.body;
   db.query('SELECT * FROM users WHERE username = ?', [username], async (err, results) => {
     if (err || results.length === 0) {
-    return res.send('User not found');
+      return res.send('User not found');
     }
 
     const user = results[0];
@@ -48,11 +48,11 @@ const { username, password } = req.body;
 });
 });
 
-//Logout
+// Logout
 router.get('/logout', (req, res) => {
-req.session.destroy(() => {
+  req.session.destroy(() => {
     res.redirect('/login');
-});
+  });
 });
 
 module.exports = router;

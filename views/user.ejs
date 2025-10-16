@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>La Tua To-Do List</title>
+</head>
+
+<body>
+    <h1>Benevenuto!  Questa è la tua area personale.</h1>
+    <h2>Qui potrai gestire le tue liste di cose da fare.</h2>
+    <p>Quali sono i tuoi piani per oggi?</p>
+
+    <hr>
+
+    <h2>Aggiungi una nuova attività</h2>
+    <form action="/tasks" method="post">
+        <label for="task">Nuova attività:</label>
+        <input type="text" id="task" name="task" required>
+        <button type="submit">Aggiungi</button>
+    </form>
+
+    <hr>
+    <h2>Le tue attività</h2>
+    <% if (tasks.length === 0) { %>
+        <p>Non hai attività da completare.</p>
+    <% } else { %>
+        <ul>
+            <% tasks.forEach(task => { %>
+                <li class="<%= task.completed ? 'completed' : '' %>">
+
+                    <span><%= task.title %></span>
+                    <div>
+                        <form action="/tasks/<%= task._id %>/complete" method="post" style="display: inline;">
+                            <input type="hidden" name="_method" value="PATCH">
+                            <input type="checkbox" onchange="this.form.submit()" <%= task.completed ? 'checked' : '' %>>
+                            <label>Completata</label>
+                        </form>
+
+                        <form action="/tasks/<%= task._id %>" method="post" style="display: inline;">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" style="margin-left: 10px;">Elimina</button>
+                        </form>
+                    </div>
+                </li>
+            <% }) %>
+        </ul>
+    <% } %>
+</body>
+
+</html>
