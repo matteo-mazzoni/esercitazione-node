@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
-const path = require('path');
+const path = require('node:path');
 const authRoutes = require('./routes/auth');
 
 const app = express();
@@ -13,11 +13,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Session setup
 app.use(
-  session({
+session({
     secret: process.env.SESSION_SECRET || 'supersecret',
     resave: false,
     saveUninitialized: false,
-  })
+})
 );
 
 // Routes
