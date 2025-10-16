@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize');
+require('dotenv').config();
 
-const sequelize = new Sequelize('java', 'root', 'mazzoni', {
+const sequelize = new Sequelize('java', 'root', process.env.DATABASEPSSWD, {
 host: 'localhost',
 dialect: 'mysql',
 logging: false,
